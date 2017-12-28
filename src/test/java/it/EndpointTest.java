@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 
 public class EndpointTest {
 
-    public void testEndpoint(String endpoint, String expectedOutput) {
+    protected void testEndpoint(String endpoint, String expectedOutput) {
         String port = System.getProperty("liberty.test.port");
         String war = System.getProperty("war.context");
         String url = "http://localhost:" + port + "/" + war + endpoint;
@@ -25,12 +25,11 @@ public class EndpointTest {
         assertTrue("Incorrect response, response is " + responseString, responseString.contains(expectedOutput));
     }
 
-    public Response sendRequest(String url, String requestType) {
+    private Response sendRequest(String url, String requestType) {
         Client client = ClientBuilder.newClient();
         System.out.println("Testing " + url);
         WebTarget target = client.target(url);
         Invocation.Builder invoBuild = target.request();
-        Response response = invoBuild.build(requestType).invoke();
-        return response;
+        return invoBuild.build(requestType).invoke();
     }
 }
